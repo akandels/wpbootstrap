@@ -6,7 +6,6 @@
  * @subpackage wpbootstrap
  * @since wpbootstrap 0.1
  */
-
 get_header(); ?>
 
 <div class="row">
@@ -22,9 +21,9 @@ get_header(); ?>
 					<p class="muted">
 						<?php twentyten_posted_on(); ?>
 					</p>
-					
+
 					<hr />
-		
+
 					<div class="post_content">
 						<?php the_content(); ?>
 						<?php wp_link_pages( array( 'before' => '' . __( 'Pages:', 'twentyten' ), 'after' => '' ) ); ?>
@@ -46,7 +45,7 @@ get_header(); ?>
 					<?php endif; ?>
 					<?php edit_post_link( __( 'Edit', 'twentyten' ), '| ', '' ); ?>
 				</p>
-	
+
 				<hr />
 
 					<?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries  ?>
@@ -60,12 +59,12 @@ get_header(); ?>
 
 
 
-					<?php 
+					<?php
 						global $sa_options;
 						$sa_settings = get_option( 'sa_options', $sa_options );
 					?>
 					<?php
-						if( $sa_settings['social_buttons'] == '1' ) : 
+						if( $sa_settings['social_buttons'] == '1' ) :
 					?>
 				<div class="well clearfix">
 
@@ -87,7 +86,7 @@ get_header(); ?>
 						  })();
 						</script>
 					</div>
-				
+
 				</div> <!-- /well -->
 					<?php endif; ?>
 

@@ -18,19 +18,14 @@
  * @since wpbootstrap 0.1
  */
 ?>
-<?php 
-	// Filters for adding classes to various functions
-	$comments_link_attributes_css = 'btn small primary';
-?>
-
 
 <?php /* If there are no posts to display, such as an empty archive page */ ?>
 <?php if ( ! have_posts() ) : ?>
-		
+
 		<div class="page-header">
 			<h1><?php _e( 'Not Found', 'twentyten' ); ?></h1>
 		</div>
-		
+
 		<div class="alert-message block-message error">
 			<p><?php _e( 'Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'twentyten' ); ?></p>
 			<div class="alert-actions"
@@ -40,7 +35,7 @@
 
 <?php endif; ?>
 
-<?php 
+<?php
 	global $sa_options;
 	$sa_settings = get_option( 'sa_options', $sa_options );
 ?>
@@ -61,9 +56,12 @@
 	 * Without further ado, the loop:
 	 */ ?>
 
-<?php 
+<?php
 // Set the first post value to 1, outside the loop
-if ( ( is_paged() == false && $sa_settings['compact_homepage'] == '1' ) || ( $sa_settings['compact_homepage'] == false ) ) { $firstpost  = '1'; }
+$compactHomepage = !empty($sa_settings['compact_homepage']);
+if ( ( is_paged() == false && $compactHomepage ) || ( !$compactHomepage ) ) {
+    $firstpost  = '1';
+}
 ?>
 
 <?php while ( have_posts() ) : the_post(); ?>
@@ -89,18 +87,12 @@ if ( ( is_paged() == false && $sa_settings['compact_homepage'] == '1' ) || ( $sa
 					</h2>
 				</div> <!-- /page-header -->
 			<?php endif; ?>
-	
-			<p class="muted">
-				<?php twentyten_posted_on(); ?>
-			</p>
-			
-			<hr />
-	
+
 			<?php
 			// Compact home page if start
 				if ( $firstpost == '1' ) :
 			?>
-			
+
 			<div class="post_content">
 				<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
 						<?php the_excerpt(); ?>
@@ -126,49 +118,18 @@ if ( ( is_paged() == false && $sa_settings['compact_homepage'] == '1' ) || ( $sa
 				<?php edit_post_link( __( 'Edit', 'twentyten' ), '| ', '' ); ?>
 			</p>
 
-			<hr />
-
-
-				<div class="well">
-						<?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ),$comments_link_attributes_css); ?>
-
-					<?php
-						if( $sa_settings['social_buttons'] == '1' ) : 
-					?>
-						<div class="post_social_buttons">
-							<iframe src="http://www.facebook.com/plugins/like.php?app_id=124765724272783&amp;href=<?php the_permalink(); ?>&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=lucida+grande&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:20px;" allowTransparency="true"></iframe>
-							<a href="http://twitter.com/share" class="twitter-share-button" data-url="<?php the_permalink(); ?>" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-
-							<div class="g-plusone" data-size="medium" data-href="<?php the_permalink(); ?>"></div>
-							<script type="text/javascript">
-							  (function() {
-							    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-							    po.src = 'https://apis.google.com/js/plusone.js';
-							    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-							  })();
-							</script>
-						</div>
-					<?php endif; ?>
-
-				</div> <!-- /well -->
-
-
-
-
-		<?php comments_template( '', true ); ?>
-
 	</article>
 
 	<?php
 	// Block this part of the loop by setting $firstpost to '0'
-		if( $sa_settings['compact_homepage'] == '1' && is_home() == true) { $firstpost = ''; }
+		if ($compactHomepage && is_home() == true) {
+            $firstpost = '';
+        }
 	?>
-		
+
 	<?php
 	// Compact home page if end
 	 endif; ?>
-
-
 
 <?php endwhile; // End the loop. Whew. ?>
 
