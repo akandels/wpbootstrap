@@ -50,6 +50,7 @@
 <body <?php body_class(); ?>>
 <div class="container">
     <div class="hero-unit" style="position: relative">
+        <img src="/wp-content/plugins/vulnero/public/images/logo.png" alt=""/>
         <h1><?php bloginfo( 'name' ); ?></h1>
         <p><?php bloginfo( 'description' ); ?></p>
     </div>
