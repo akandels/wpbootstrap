@@ -18,21 +18,15 @@
  * @since wpbootstrap 0.1
  */
 ?>
+<?php if (!have_posts()) : ?>
+    <div class="page-header">
+        <h1><?php _e( 'Not Found', 'twentyten' ); ?></h1>
+    </div>
 
-<?php /* If there are no posts to display, such as an empty archive page */ ?>
-<?php if ( ! have_posts() ) : ?>
-
-		<div class="page-header">
-			<h1><?php _e( 'Not Found', 'twentyten' ); ?></h1>
-		</div>
-
-		<div class="alert-message block-message error">
-			<p><?php _e( 'Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'twentyten' ); ?></p>
-			<div class="alert-actions"
-				<?php get_search_form(); ?>
-			</div>
-		</div>
-
+    <div class="alert-message block-message error">
+        <p><?php _e( 'Apologies, but no results were found for the requested archive. Perhaps searching will help find a related post.', 'twentyten' ); ?></p>
+        <div class="alert-actions"><?php get_search_form(); ?></div>
+    </div>
 <?php endif; ?>
 
 <?php
@@ -65,58 +59,40 @@ if ( ( is_paged() == false && $compactHomepage ) || ( !$compactHomepage ) ) {
 ?>
 
 <?php while ( have_posts() ) : the_post(); ?>
+    <?php if ($firstpost == '1'): ?>
+    <article>
+        <div class="page-header">
+            <h1>
+                <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+            </h1>
+        </div> <!-- /page-header -->
+    <?php endif; ?>
 
+    <?php if ($firstpost == ''): ?>
+        <div class="page-header" style="margin-top: 50px;">
+            <h2>
+                <a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+            </h2>
+        </div> <!-- /page-header -->
+    <?php endif; ?>
 
-			<?php
-				if ( $firstpost == '1' ) :
-			?>
-	<article>
-				<div class="page-header">
-					<h1>
-						<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
-					</h1>
-				</div> <!-- /page-header -->
-			<?php endif; ?>
+    <?php
+    // Compact home page if start
+        if ( $firstpost == '1' ) :
+    ?>
 
-			<?php
-				if ( $firstpost == '' ) :
-			?>
-				<div class="page-header" style="margin-top: 50px;">
-					<h2>
-						<a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
-					</h2>
-				</div> <!-- /page-header -->
-			<?php endif; ?>
+    <div class="post_content">
+        <?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
+                <?php the_excerpt(); ?>
+        <?php else : ?>
+                <?php the_content( __( 'Continue reading &rarr;', 'twentyten' ) ); ?>
+                <?php wp_link_pages( array( 'before' => '' . __( 'Pages:', 'twentyten' ), 'after' => '' ) ); ?>
+        <?php endif; ?>
+    </div>
 
-			<?php
-			// Compact home page if start
-				if ( $firstpost == '1' ) :
-			?>
-
-			<div class="post_content">
-				<?php if ( is_archive() || is_search() ) : // Only display excerpts for archives and search. ?>
-						<?php the_excerpt(); ?>
-				<?php else : ?>
-						<?php the_content( __( 'Continue reading &rarr;', 'twentyten' ) ); ?>
-						<?php wp_link_pages( array( 'before' => '' . __( 'Pages:', 'twentyten' ), 'after' => '' ) ); ?>
-				<?php endif; ?>
-			</div>
-
-			<p class="muted">
-				<?php twentyten_posted_on(); ?>
-					|
-				<?php if ( count( get_the_category() ) ) : ?>
-					<?php printf( __( 'Posted in %2$s', 'twentyten' ), 'entry-utility-prep entry-utility-prep-cat-links', get_the_category_list( ', ' ) ); ?>
-				<?php endif; ?>
-				<?php
-					$tags_list = get_the_tag_list( '', ', ' );
-					if ( $tags_list ):
-				?>
-					|
-					<?php printf( __( 'Tagged %2$s', 'twentyten' ), 'entry-utility-prep entry-utility-prep-tag-links', $tags_list ); ?>
-				<?php endif; ?>
-				<?php edit_post_link( __( 'Edit', 'twentyten' ), '| ', '' ); ?>
-			</p>
+    <p class="muted">
+        <?php twentyten_posted_on(); ?>
+    </p>
 
 	</article>
 
