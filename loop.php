@@ -19,7 +19,7 @@
 <?php while (have_posts()): the_post(); ?>
     <article>
         <div class="page-header">
-            <h1><?php the_title(); ?></a></h1>
+            <h1><?php the_title(); ?></h1>
         </div> <!-- /page-header -->
         <div class="post_content">
             <?php if (is_archive() || is_search()): // Only display excerpts for archives and search. ?>
