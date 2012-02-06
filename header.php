@@ -29,7 +29,7 @@ _gaq.push(['_trackPageview']);
 <body <?php body_class(); ?>>
 <div class="container">
     <div class="hero-unit">
-        <a href="/"><img src="/wp-content/plugins/vulnero/public/images/logo.png" alt=""/></a>
+        <a href="/"><img src="/wp-content/plugins/vulnero-website/public/images/logo.png" alt=""/></a>
         <h1><?php bloginfo( 'name' ); ?></h1>
         <p><?php bloginfo( 'description' ); ?></p>
     </div>
